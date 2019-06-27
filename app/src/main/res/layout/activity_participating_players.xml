@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:id="@+id/players_container"
     tools:context=".View.ParticipatingPlayersActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/players_container"
+        android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -46,24 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/done_button"
-            android:onClick="addPlayerFragment"
+            android:onClick="startGame"
             android:text="@string/button_done"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_weight="1"
-            android:backgroundTint="@android:color/holo_red_dark"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/back_button"
-            android:text="@string/button_back"
-            android:onClick="addPlayerFragment"
             android:layout_gravity="bottom"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="40dp"
@@ -74,8 +63,25 @@
             android:layout_weight="1"
             android:backgroundTint="@android:color/holo_green_light"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/back_button"
+            android:text="@string/button_back"
+            android:onClick="back"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/holo_red_dark"/>
+
         </LinearLayout>
 
     </LinearLayout>
+    </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

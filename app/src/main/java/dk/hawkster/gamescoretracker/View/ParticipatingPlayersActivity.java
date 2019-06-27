@@ -45,4 +45,11 @@ public class ParticipatingPlayersActivity extends AppCompatActivity {
 
         llPlayerContainer.addView(llButtonsContainer);
     }
+
+    public void back(View view) {
+        finish();
+    }
+
+    public void startGame(View view) {
+    }
 }
