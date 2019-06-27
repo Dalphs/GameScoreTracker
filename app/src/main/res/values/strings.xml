@@ -12,6 +12,7 @@
     <string name="button_add_player">Tilføj Spiller</string>
     <string name="button_done">Start</string>
     <string name="button_back">Tilbage</string>
+    <string name="button_add">Tilføj</string>
 
     <string name="text_view_spillere">Spillere:</string>
 

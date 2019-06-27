@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.ParticipatingPlayersActivity"></activity>
+        <activity android:name=".RummyScoreboardActivity"></activity>
+        <activity android:name=".View.ParticipatingPlayersActivity" />
         <activity android:name=".View.ChooseGameActivity" />
         <activity android:name=".View.MainActivity">
             <intent-filter>
