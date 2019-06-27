@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">GameScoreTracker</string>
+
+    <string name="button_text_new_game">Nyt Spil</string>
+    <string name="button_text_game_history">Tidligere Spil</string>
+
+    <string name="button_text_rummy">500</string>
+    <string name="button_text_whist">Whist</string>
+    <string name="button_text_3_person_whist">3-mands whist</string>
+    <string name="button_text_pirate_whist">Piratwhist</string>
+    <string name="button_text_backgammon">Backgammon</string>
+    <string name="button_add_player">Tilføj Spiller</string>
+    <string name="button_done">Start</string>
+    <string name="button_back">Tilbage</string>
+
+    <string name="text_view_spillere">Spillere:</string>
+
+    <string name="edit_text_add_player">Navn</string>
 </resources>
