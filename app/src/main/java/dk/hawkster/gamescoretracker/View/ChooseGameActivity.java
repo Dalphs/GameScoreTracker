@@ -19,9 +19,9 @@ public class ChooseGameActivity extends AppCompatActivity {
 
     public void addPlayers(View view) {
         Button button = (Button) view;
-        String text = button.getText().toString();
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        String buttonPressed = button.getText().toString();
         Intent intent = new Intent(getApplicationContext(), ParticipatingPlayersActivity.class);
+        intent.putExtra("GC", buttonPressed);
         startActivity(intent);
     }
 }
