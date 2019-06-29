@@ -42,6 +42,8 @@ public class PlayerTest {
         rummy.updateScoreBoard(scoreBoard);
         System.out.println("Simon accumulated: " + rummy.getPlayers().get(0).getAccumulatedGameScores());
         System.out.println("Sune accumulated: " + rummy.getPlayers().get(1).getAccumulatedGameScores());
+        System.out.println("Simon not accumulated: " + rummy.getPlayers().get(0).getCurrentGameScores());
+        System.out.println("Sune not accumulated: " + rummy.getPlayers().get(1).getCurrentGameScores());
 
     }
 }

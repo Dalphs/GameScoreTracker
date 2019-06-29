@@ -17,10 +17,11 @@ public class Rummy {
     public void calculatePoints(){
         for (Player p: players) {
             Double totalCurrentPoints = 0.0;
-            List<Double> accumulatedGameScores = p.getCurrentGameScores();
-            for (int i = 0; i < accumulatedGameScores.size(); i++) {
-                totalCurrentPoints += accumulatedGameScores.get(i);
-                accumulatedGameScores.set(i, totalCurrentPoints);
+            List<Double> currentGameScores = p.getCurrentGameScores();
+            List<Double> accumulatedGameScores = new ArrayList<>();
+            for (int i = 0; i < currentGameScores.size(); i++) {
+                totalCurrentPoints += currentGameScores.get(i);
+                accumulatedGameScores.add(totalCurrentPoints);
             }
             p.setAccumulatedGameScores(accumulatedGameScores);
         }
