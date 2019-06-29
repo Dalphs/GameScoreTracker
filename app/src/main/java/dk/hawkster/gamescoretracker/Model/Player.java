@@ -1,16 +1,21 @@
 package dk.hawkster.gamescoretracker.Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Player {
 
+    private String name;
     private Map<String, Double> allTimeScores;
-    private double currentGameScore;
+    private List<Double> currentGameScores;
+    private List<Double> accumulatedGameScores;
 
-    public Player() {
+    public Player(String name) {
         setupAllTimeScores();
-        currentGameScore = 0;
+        currentGameScores = new ArrayList<>();
+        this.name = name;
 
     }
 
@@ -34,11 +39,27 @@ public class Player {
         this.allTimeScores = allTimeScores;
     }
 
-    public double getCurrentGameScore() {
-        return currentGameScore;
+    public List<Double> getCurrentGameScores() {
+        return currentGameScores;
     }
 
-    public void setCurrentGameScore(double currentGameScore) {
-        this.currentGameScore = currentGameScore;
+    public void setCurrentGameScores(List<Double> currentGameScores) {
+        this.currentGameScores = currentGameScores;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Double> getAccumulatedGameScores() {
+        return accumulatedGameScores;
+    }
+
+    public void setAccumulatedGameScores(List<Double> accumulatedGameScores) {
+        this.accumulatedGameScores = accumulatedGameScores;
     }
 }

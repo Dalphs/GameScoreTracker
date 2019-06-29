@@ -2,10 +2,15 @@ package dk.hawkster.gamescoretracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import dk.hawkster.gamescoretracker.Model.Player;
+import dk.hawkster.gamescoretracker.Model.Rummy;
+import dk.hawkster.gamescoretracker.Viewmodel.RummyViewModel;
 
 import static org.junit.Assert.*;
 
@@ -23,6 +28,20 @@ public class PlayerTest {
         expected.put("3 Person Whist", 0.0);
         expected.put("Pirate Whist", 0.0);
         expected.put("Backgammon", 0.0);
-        assertEquals(expected, new Player().getAllTimeScores());
+        assertEquals(expected, new Player("Søren").getAllTimeScores());
+    }
+
+    @Test
+    public void accumulatedCalculatorTest(){
+        RummyViewModel rummy = new RummyViewModel(Arrays.asList("Simon", "Sune"));
+        List<Double> simon = new ArrayList<>(Arrays.asList(20.0, 40.0, 60.0));
+        List<Double> sune = new ArrayList<>(Arrays.asList(10.0, 60.0, 80.0));
+        List<List<Double>> scoreBoard = new ArrayList<>(Arrays.asList(simon, sune));
+        System.out.println("Players form viewmodel" + rummy.getPlayers());
+        System.out.println("Scroeboard" + scoreBoard);
+        rummy.updateScoreBoard(scoreBoard);
+        System.out.println("Simon accumulated: " + rummy.getPlayers().get(0).getAccumulatedGameScores());
+        System.out.println("Sune accumulated: " + rummy.getPlayers().get(1).getAccumulatedGameScores());
+
     }
 }
