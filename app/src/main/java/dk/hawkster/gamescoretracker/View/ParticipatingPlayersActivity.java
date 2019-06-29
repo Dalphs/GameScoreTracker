@@ -3,18 +3,16 @@ package dk.hawkster.gamescoretracker.View;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import dk.hawkster.gamescoretracker.R;
+import dk.hawkster.gamescoretracker.View.Rummy.RummyScoreboardActivity;
 
 public class ParticipatingPlayersActivity extends AppCompatActivity {
 
@@ -47,6 +45,7 @@ public class ParticipatingPlayersActivity extends AppCompatActivity {
         llPlayerContainer.removeView(llButtonsContainer);
 
         TextView textView = (TextView) View.inflate(this, R.layout.add_player_fragment, null);
+        textView.requestFocus();
         llPlayerContainer.addView(textView);
         nameFields.add(textView);
 
