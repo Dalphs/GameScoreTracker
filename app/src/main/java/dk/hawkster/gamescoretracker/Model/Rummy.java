@@ -5,7 +5,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rummy {
+import dk.hawkster.gamescoretracker.Observer.RummyObservable;
+
+public class Rummy extends RummyObservable {
 
     private List<Player> players;
     private int numberOfGames;
@@ -27,12 +29,7 @@ public class Rummy {
                 accumulatedGameScores.add(totalCurrentPoints);
             }
             p.setAccumulatedGameScores(accumulatedGameScores);
-        }
-    }
-
-    public void updateGame(List<Player> updatedPlayers){
-        for (int i = 0; i < updatedPlayers.size(); i++) {
-            players.set(i, updatedPlayers.get(i));
+            notifyObservers();
         }
     }
 

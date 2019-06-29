@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import dk.hawkster.gamescoretracker.Observer.RummyPlayerFragmentObserver;
+import dk.hawkster.gamescoretracker.Observer.RummyViewModelObserver;
 import dk.hawkster.gamescoretracker.R;
 import dk.hawkster.gamescoretracker.Viewmodel.RummyViewModel;
 
@@ -47,6 +49,8 @@ public class RummyScoreboardActivity extends AppCompatActivity {
         }
 
         rummyViewModel = new RummyViewModel(players);
+        ViewModelRummyObserver viewModelRummyObserver = new ViewModelRummyObserver();
+        rummyViewModel.addObserver(viewModelRummyObserver);
 
         int idCounter = 0;
         for (String s : players) {
@@ -68,20 +72,54 @@ public class RummyScoreboardActivity extends AppCompatActivity {
 
     }
 
+    public class ViewModelRummyObserver implements RummyViewModelObserver{
+
+        @Override
+        public void update() {
+            List<List<Double>> scoreBoard= rummyViewModel.getScoreBoard();
+            for (int i = 0; i < scoreBoard.size(); i++) {
+                double[] doubles = new double[scoreBoard.get(i).size()];
+                for (int j = 0; j < doubles.length; j++) {
+                    doubles[i] = scoreBoard.get(i).get(j);
+                }
+                playersView.get(i).setNumberFields(doubles);
+            }
+
+        }
+    }
+
     public class PlayerFragmentObserver implements RummyPlayerFragmentObserver {
 
         @Override
-        public void update(int id, int etPosition) {
-            List<List<Double>> scoreBoard = new ArrayList<>();
-            for (RummyPlayerFragment r: playersView) {
-                scoreBoard.add(r.getNumbersInFields());
+        public void update(int id, int etPosition, boolean hasFocus) {
+            Log.d("MMM", "update: etPosition: " + etPosition);
+                RummyPlayerFragment player = playersView.get(id);
+                EditText scoreContainer = player.getNumberFields().get(etPosition);
+
+                if (hasFocus) {
+                    List<Double> originalInputs = rummyViewModel.getPlayersScores(id);
+                    if (originalInputs.size() > 0 && originalInputs.size() > etPosition) {
+                        Double oldInput = originalInputs.get(etPosition);
+                        scoreContainer.setText(Double.toString(oldInput));
+                        Log.d("MMM", "update: setText: " + oldInput);
+                    }
+
+                } else {
+
+                    if (!scoreContainer.getText().toString().equals("")) {
+                        List<Double> personalScoreboard = rummyViewModel.getScoreBoard().get(id);
+                        Double doubleInScoreContainer = Double.parseDouble(scoreContainer.getText().toString());
+                        if (personalScoreboard.size() == etPosition) {
+                            personalScoreboard.add(doubleInScoreContainer);
+                        } else {
+                            personalScoreboard.set(etPosition, doubleInScoreContainer);
+                        }
+                        rummyViewModel.getScoreBoard().set(id, personalScoreboard);
+                        Log.d("MMM", "update: personalScoreboard: " + personalScoreboard);
+                    }
+                }
+
             }
-            Log.d("-------", "update: PlayerFragmentObserver notified");
-            Log.d("------", "update: Scoreboard: " + scoreBoard.get(1));
-            rummyViewModel.updateScoreBoard(scoreBoard);
-            if (etPosition >= 0){
-                playersView.get(id).getNumberFields().get(etPosition).setText(Double.toString(rummyViewModel.getPlayers().get(id).getCurrentGameScores().get(etPosition)));
-            }
-        }
+
     }
 }

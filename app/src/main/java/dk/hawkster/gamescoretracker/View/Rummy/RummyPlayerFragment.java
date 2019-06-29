@@ -60,22 +60,17 @@ public class RummyPlayerFragment extends RummyPlayerFragmentObservable {
                     EditText newEditText = createEditText();
                     addToView(newEditText);
                 }
-                numbersInFields = new ArrayList<>();
+
                 int etPosition = -1;
                 int counter = 0;
                 for (EditText number: numberFields) {
-                    if (!number.getText().toString().equals("") && !hasFocus) {
-                        Double content = Double.parseDouble(number.getText().toString());
-                        if (content != 0.0) {
-                            numbersInFields.add(content);
-                        }
-                    }
-                    if(number.equals(et) && hasFocus){
+                    if(number.equals(et)){
                         etPosition = counter;
                     }
                     counter++;
                 }
-                notifyObservers(id, etPosition);
+                if (etPosition >= 0)
+                    notifyObservers(id, etPosition, hasFocus);
             }
         });
         return editText;
@@ -100,6 +95,13 @@ public class RummyPlayerFragment extends RummyPlayerFragmentObservable {
 
     public void setNumberFields(List<EditText> numberFields) {
         this.numberFields = numberFields;
+    }
+
+    public void setNumberFields(double[] scores){
+        for (int i = 0; i < scores.length; i++) {
+            numberFields.get(i).setText(Double.toString(scores[i]));
+        }
+
     }
 
     public String getName() {
