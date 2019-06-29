@@ -1,5 +1,7 @@
 package dk.hawkster.gamescoretracker.Model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class Rummy {
         for (Player p: players) {
             Double totalCurrentPoints = 0.0;
             List<Double> currentGameScores = p.getCurrentGameScores();
+            Log.d("-----", "calculatePoints: currentGameScore: " + currentGameScores);
             List<Double> accumulatedGameScores = new ArrayList<>();
             for (int i = 0; i < currentGameScores.size(); i++) {
                 totalCurrentPoints += currentGameScores.get(i);

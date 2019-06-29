@@ -1,6 +1,7 @@
 package dk.hawkster.gamescoretracker.View.Rummy;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -9,21 +10,28 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
+import dk.hawkster.gamescoretracker.Observer.RummyPlayerFragmentObservable;
+import dk.hawkster.gamescoretracker.Observer.RummyPlayerFragmentObserver;
 import dk.hawkster.gamescoretracker.R;
 
-public class RummyPlayerFragment {
+public class RummyPlayerFragment extends RummyPlayerFragmentObservable {
 
     private Context context;
     private LinearLayout llContainer;
     private List<EditText> numberFields;
     private String name;
+    private List<Double> numbersInFields;
+    int id;
 
-    public RummyPlayerFragment(Context context, String name) {
+    public RummyPlayerFragment(Context context, String name, int id) {
         this.context = context;
 
         numberFields = new ArrayList<>();
+        numbersInFields = new ArrayList<>();
         this.name = name;
+        this.id = id;
 
         llContainer = (LinearLayout) View.inflate(context, R.layout.fragment_linear_layout, null);
         llContainer.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
@@ -48,10 +56,26 @@ public class RummyPlayerFragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 EditText et = (EditText) v;
-                if (et.equals(numberFields.get(numberFields.size() - 1))) {
+                if (et.equals(numberFields.get(numberFields.size() - 1)) && !hasFocus) {
                     EditText newEditText = createEditText();
                     addToView(newEditText);
                 }
+                numbersInFields = new ArrayList<>();
+                int etPosition = -1;
+                int counter = 0;
+                for (EditText number: numberFields) {
+                    if (!number.getText().toString().equals("") && !hasFocus) {
+                        Double content = Double.parseDouble(number.getText().toString());
+                        if (content != 0.0) {
+                            numbersInFields.add(content);
+                        }
+                    }
+                    if(number.equals(et) && hasFocus){
+                        etPosition = counter;
+                    }
+                    counter++;
+                }
+                notifyObservers(id, etPosition);
             }
         });
         return editText;
@@ -84,5 +108,13 @@ public class RummyPlayerFragment {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Double> getNumbersInFields() {
+        return numbersInFields;
+    }
+
+    public void setNumbersInFields(List<Double> numbersInFields) {
+        this.numbersInFields = numbersInFields;
     }
 }

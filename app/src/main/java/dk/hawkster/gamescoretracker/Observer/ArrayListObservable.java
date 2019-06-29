@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ArrayListObservable {
 
-    private ArrayList<ArrayListObserver> observers;
+    private ArrayList<ArrayListObserver> observers = new ArrayList<>();
 
     public void notifyObservers(ArrayList<String[]> players){
         for (ArrayListObserver o: observers) {

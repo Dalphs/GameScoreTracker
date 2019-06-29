@@ -1,5 +1,7 @@
 package dk.hawkster.gamescoretracker.Viewmodel;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class RummyViewModel extends ArrayListObservable {
             p.setCurrentGameScores(currentGameScores);
         }
         rummy.calculatePoints();
+        Log.d("--------------------", "updateScoreBoard: " + (players.get(1).getAccumulatedGameScores()));
 
     }
 
