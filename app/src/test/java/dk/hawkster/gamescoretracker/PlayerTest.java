@@ -37,7 +37,7 @@ public class PlayerTest {
         List<Double> simon = new ArrayList<>(Arrays.asList(20.0, 40.0, 60.0));
         List<Double> sune = new ArrayList<>(Arrays.asList(10.0, 60.0, 80.0));
         List<List<Double>> scoreBoard = new ArrayList<>(Arrays.asList(simon, sune));
-        System.out.println("Players form viewmodel" + rummy.getPlayers());
+        System.out.println("Players form viewmodel: " + rummy.getPlayers().get(0).getName() + " " + rummy.getPlayers().get(1).getName());
         System.out.println("Scroeboard" + scoreBoard);
         rummy.updateScoreBoard(scoreBoard);
         System.out.println("Simon accumulated: " + rummy.getPlayers().get(0).getAccumulatedGameScores());
