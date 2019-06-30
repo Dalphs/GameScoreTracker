@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import dk.hawkster.gamescoretracker.Model.Player;
-import dk.hawkster.gamescoretracker.Model.Rummy;
 import dk.hawkster.gamescoretracker.Viewmodel.RummyViewModel;
 
 import static org.junit.Assert.*;

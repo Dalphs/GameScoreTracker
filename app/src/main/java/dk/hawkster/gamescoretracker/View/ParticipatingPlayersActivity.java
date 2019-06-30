@@ -55,8 +55,9 @@ public class ParticipatingPlayersActivity extends AppCompatActivity {
     public ArrayList<String> getPlayers(){
         ArrayList<String> players = new ArrayList<>();
         for (TextView tv: nameFields) {
-            String name = tv.getText().toString();
-            if(!name.equals("")){
+            String input = tv.getText().toString();
+            if(!input.equals("")){
+                String name = input.substring(0, 1).toUpperCase() + input.substring(1);
                 players.add(name);
             }
         }

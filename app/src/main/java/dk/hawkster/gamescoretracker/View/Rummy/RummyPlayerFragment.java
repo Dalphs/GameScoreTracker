@@ -8,12 +8,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 import dk.hawkster.gamescoretracker.Observer.RummyPlayerFragmentObservable;
-import dk.hawkster.gamescoretracker.Observer.RummyPlayerFragmentObserver;
 import dk.hawkster.gamescoretracker.R;
 
 public class RummyPlayerFragment extends RummyPlayerFragmentObservable {
@@ -23,7 +23,7 @@ public class RummyPlayerFragment extends RummyPlayerFragmentObservable {
     private List<EditText> numberFields;
     private String name;
     private List<Double> numbersInFields;
-    int id;
+    private int id;
 
     public RummyPlayerFragment(Context context, String name, int id) {
         this.context = context;
@@ -63,14 +63,18 @@ public class RummyPlayerFragment extends RummyPlayerFragmentObservable {
 
                 int etPosition = -1;
                 int counter = 0;
-                for (EditText number: numberFields) {
-                    if(number.equals(et)){
+                double input = Double.NaN;
+                for (EditText text: numberFields) {
+                    if(text.equals(et)){
                         etPosition = counter;
                     }
                     counter++;
                 }
-                if (etPosition >= 0)
-                    notifyObservers(id, etPosition, hasFocus);
+                if (etPosition >= 0) {
+                    if(!et.getText().toString().equals(""))
+                        input = Double.parseDouble(et.getText().toString());
+                    notifyObservers(id, etPosition, hasFocus, input);
+                }
             }
         });
         return editText;
@@ -99,7 +103,8 @@ public class RummyPlayerFragment extends RummyPlayerFragmentObservable {
 
     public void setNumberFields(double[] scores){
         for (int i = 0; i < scores.length; i++) {
-            numberFields.get(i).setText(Double.toString(scores[i]));
+            NumberFormat format = new DecimalFormat("0.#");
+            numberFields.get(i).setText(format.format(scores[i]));
         }
 
     }

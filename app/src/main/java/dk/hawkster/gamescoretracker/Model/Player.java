@@ -10,7 +10,6 @@ public class Player {
     private String name;
     private Map<String, Double> allTimeScores;
     private List<Double> currentGameScores;
-    private List<Double> accumulatedGameScores;
 
     public Player(String name) {
         setupAllTimeScores();
@@ -53,13 +52,5 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Double> getAccumulatedGameScores() {
-        return accumulatedGameScores;
-    }
-
-    public void setAccumulatedGameScores(List<Double> accumulatedGameScores) {
-        this.accumulatedGameScores = accumulatedGameScores;
     }
 }

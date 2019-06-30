@@ -8,9 +8,9 @@ public class RummyPlayerFragmentObservable {
 
     private ArrayList<RummyPlayerFragmentObserver> observers = new ArrayList<>();
 
-    public void notifyObservers(int id, int etPosition, boolean hasFocus){
+    public void notifyObservers(int id, int etPosition, boolean hasFocus, double input){
         for (RummyPlayerFragmentObserver o: observers) {
-            o.update(id, etPosition, hasFocus);
+            o.update(id, etPosition, hasFocus, input);
         }
     }
 

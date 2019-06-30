@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -76,11 +78,12 @@ public class RummyScoreboardActivity extends AppCompatActivity {
 
         @Override
         public void update() {
-            List<List<Double>> scoreBoard= rummyViewModel.getScoreBoard();
+            List<List<Double>> scoreBoard = rummyViewModel.getAccumulatedScoreBoard();
             for (int i = 0; i < scoreBoard.size(); i++) {
                 double[] doubles = new double[scoreBoard.get(i).size()];
+
                 for (int j = 0; j < doubles.length; j++) {
-                    doubles[i] = scoreBoard.get(i).get(j);
+                    doubles[j] = scoreBoard.get(i).get(j);
                 }
                 playersView.get(i).setNumberFields(doubles);
             }
@@ -91,7 +94,7 @@ public class RummyScoreboardActivity extends AppCompatActivity {
     public class PlayerFragmentObserver implements RummyPlayerFragmentObserver {
 
         @Override
-        public void update(int id, int etPosition, boolean hasFocus) {
+        public void update(int id, int etPosition, boolean hasFocus, double input) {
             Log.d("MMM", "update: etPosition: " + etPosition);
                 RummyPlayerFragment player = playersView.get(id);
                 EditText scoreContainer = player.getNumberFields().get(etPosition);
@@ -100,22 +103,21 @@ public class RummyScoreboardActivity extends AppCompatActivity {
                     List<Double> originalInputs = rummyViewModel.getPlayersScores(id);
                     if (originalInputs.size() > 0 && originalInputs.size() > etPosition) {
                         Double oldInput = originalInputs.get(etPosition);
-                        scoreContainer.setText(Double.toString(oldInput));
+                        NumberFormat format = new DecimalFormat("0.#");
+                        scoreContainer.setText(format.format(oldInput));
                         Log.d("MMM", "update: setText: " + oldInput);
                     }
 
                 } else {
 
-                    if (!scoreContainer.getText().toString().equals("")) {
-                        List<Double> personalScoreboard = rummyViewModel.getScoreBoard().get(id);
-                        Double doubleInScoreContainer = Double.parseDouble(scoreContainer.getText().toString());
-                        if (personalScoreboard.size() == etPosition) {
-                            personalScoreboard.add(doubleInScoreContainer);
+                    if (!Double.isNaN(input)) {
+                        if (rummyViewModel.getScoreBoard().get(id).size() == etPosition) {
+                            rummyViewModel.getScoreBoard().get(id).add(input);
                         } else {
-                            personalScoreboard.set(etPosition, doubleInScoreContainer);
+                            rummyViewModel.getScoreBoard().get(id).set(etPosition, input);
                         }
-                        rummyViewModel.getScoreBoard().set(id, personalScoreboard);
-                        Log.d("MMM", "update: personalScoreboard: " + personalScoreboard);
+                        rummyViewModel.updatePlayers();
+
                     }
                 }
 
