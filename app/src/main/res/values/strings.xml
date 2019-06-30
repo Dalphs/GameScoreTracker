@@ -13,8 +13,40 @@
     <string name="button_done">Start</string>
     <string name="button_back">Tilbage</string>
     <string name="button_add">Tilføj</string>
+    <string name="button_new_round">Ny Runde</string>
 
     <string name="text_view_spillere">Spillere:</string>
+    <string name="text_view_whips">Antal vip?</string>
+    <string name="text_view_game_played">Hvad blev der spillet?</string>
+    <string name="text_view_suit_played">Hvilken kulør blev der spillet?</string>
+    <string name="text_view_trick_count">Antal stik?</string>
+
+    <string name="checkbox_sun">Sol</string>
+    <string name="checkbox_clean_sun">Gran Sol</string>
+    <string name="checkbox_on_the_table">På bordet</string>
+    <string name="checkbox_with">Med</string>
+    <string name="checkbox_without">Uden</string>
+    <string name="checkbox_halves">Halve</string>
+    <string name="checkbox_whip">Vip</string>
+
+    <string name="number_one">1</string>
+    <string name="number_two">2</string>
+    <string name="number_three">3</string>
+    <string name="number_four">4</string>
+    <string name="number_five">5</string>
+    <string name="number_six">6</string>
+    <string name="number_seven">7</string>
+    <string name="number_eight">8</string>
+    <string name="number_nine">9</string>
+    <string name="number_ten">10</string>
+    <string name="number_eleven">11</string>
+    <string name="number_twelve">12</string>
+    <string name="number_thirteen">13</string>
+
+    <string name="suit_hearts">Hjerter</string>
+    <string name="suit_spades">Spar</string>
+    <string name="suit_diamonds">Ruder</string>
+    <string name="suit_clubs">Klør</string>
 
     <string name="edit_text_add_player">Navn</string>
 </resources>

@@ -13,6 +13,8 @@ import java.util.List;
 
 import dk.hawkster.gamescoretracker.R;
 import dk.hawkster.gamescoretracker.View.Rummy.RummyScoreboardActivity;
+import dk.hawkster.gamescoretracker.View.Whist.WhistRoundResultActivity;
+import dk.hawkster.gamescoretracker.View.Whist.WhistScoreBoardActivity;
 
 public class ParticipatingPlayersActivity extends AppCompatActivity {
 
@@ -78,6 +80,7 @@ public class ParticipatingPlayersActivity extends AppCompatActivity {
                     nextClass = new Intent(this, RummyScoreboardActivity.class);
                     break;
                 case "Whist":
+                    nextClass = new Intent(this, WhistScoreBoardActivity.class);
                     break;
                 case "3-mands whist":
                     break;
@@ -86,8 +89,17 @@ public class ParticipatingPlayersActivity extends AppCompatActivity {
                 case "Backgammon":
                     break;
             }
-            nextClass.putExtra("PP", getPlayers());
-            startActivity(nextClass);
+            ArrayList<String> players = getPlayers();
+            if(buttonPressed.equals("Whist") && players.size() < 4){
+                Toast tooFew = Toast.makeText(this, "Min. 4 spillere", Toast.LENGTH_SHORT);
+                tooFew.show();
+            }else if (buttonPressed.equals("Whist") && players.size() > 4){
+                Toast tooMany = Toast.makeText(this, "Max. 4 spillere", Toast.LENGTH_SHORT);
+                tooMany.show();
+            }else {
+                nextClass.putExtra("PP", getPlayers());
+                startActivity(nextClass);
+            }
 
         } else{
             Toast failedToast = Toast.makeText(this, "Mission failed", Toast.LENGTH_SHORT);
