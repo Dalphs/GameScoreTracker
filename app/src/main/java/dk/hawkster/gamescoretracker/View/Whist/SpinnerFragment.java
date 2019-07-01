@@ -46,7 +46,7 @@ public class SpinnerFragment extends Fragment {
         textView.setText(text);
 
         ArrayList<String> adapter = new ArrayList<>();
-        for (int i = 1; i <= number; i++) {
+        for (int i = 0; i <= number; i++) {
             adapter.add(Integer.toString(i));
         }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item, adapter);

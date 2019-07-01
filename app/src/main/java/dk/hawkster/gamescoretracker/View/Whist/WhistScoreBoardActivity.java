@@ -1,6 +1,7 @@
 package dk.hawkster.gamescoretracker.View.Whist;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -28,11 +29,11 @@ public class WhistScoreBoardActivity extends AppCompatActivity {
 
         List<String> players = new ArrayList<>();
         Object extraPP = extras.get("PP");
-        if(extraPP instanceof ArrayList<?>){
+        if (extraPP instanceof ArrayList<?>) {
             ArrayList<?> al = (ArrayList<?>) extraPP;
-            if(al.size() > 0){
+            if (al.size() > 0) {
                 for (int i = 0; i < al.size(); i++) {
-                    if(al.get(i) instanceof String){
+                    if (al.get(i) instanceof String) {
                         players.add((String) al.get(i));
                     }
                 }
@@ -48,5 +49,32 @@ public class WhistScoreBoardActivity extends AppCompatActivity {
     }
 
     public void newRound(View view) {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Integer gameMode = null;
+        Integer suit = null;
+        Integer whip = null;
+        Integer tricksRequired = null;
+        int[] players, tricks;
+
+        if (data != null) {
+            gameMode = data.getIntExtra("GameMode", -1);
+            players = data.getIntArrayExtra("Players");
+            tricks = data.getIntArrayExtra("Tricks");
+
+            if (gameMode < 5){
+                tricksRequired = data.getIntExtra("TricksRequired", -1);
+                if(gameMode != 2){
+                    suit = data.getIntExtra("Suit", -1);
+                }
+                if (gameMode == 4){
+                    whip = data.getIntExtra("Whips", -1);
+                }
+            }
+        }
+
+
     }
 }

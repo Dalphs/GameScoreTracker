@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.hawkster.gamescoretracker.Model.Player;
+import dk.hawkster.gamescoretracker.Model.WhistRound;
 
 public class WhistViewModel {
 
@@ -23,6 +24,11 @@ public class WhistViewModel {
         return players;
     }
 
+    public void addNewWhistRound(Integer gameMode, Integer requiredTrricks, Integer suit,
+                                 Integer whips, int[] players, int[] tricks){
+
+    }
+
     public void setPlayers(List<Player> players) {
         this.players = players;
     }
@@ -34,4 +40,5 @@ public class WhistViewModel {
     public void setPlayerNames(List<String> playerNames) {
         this.playerNames = playerNames;
     }
+
 }

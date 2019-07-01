@@ -187,7 +187,7 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
                 int suitChosen = getSuit();
                 returnIntent.putExtra("Suit", suitChosen);
             }
-            if(gameMode == 3){
+            if(gameMode == 4){
                 int numberOfWhips = Integer.parseInt(whipSpinner.getItemSelected());
                 returnIntent.putExtra("Whips", numberOfWhips);
             }
@@ -197,9 +197,6 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
 
         int[] playerIndexes = getPlayerIndexes();
         returnIntent.putExtra("Players", playerIndexes);
-
-
-
 
 
         setResult(Activity.RESULT_OK, returnIntent);
