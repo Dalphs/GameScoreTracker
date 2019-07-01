@@ -1,4 +1,4 @@
-package dk.hawkster.gamescoretracker.View.Whist;
+package dk.hawkster.gamescoretracker.Viewmodel;
 
 import java.util.ArrayList;
 import java.util.List;

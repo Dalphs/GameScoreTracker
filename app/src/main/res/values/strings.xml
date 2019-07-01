@@ -14,6 +14,7 @@
     <string name="button_back">Tilbage</string>
     <string name="button_add">Tilføj</string>
     <string name="button_new_round">Ny Runde</string>
+    <string name="button_save">Gem</string>
 
     <string name="text_view_spillere">Spillere:</string>
     <string name="text_view_whips">Antal vip?</string>

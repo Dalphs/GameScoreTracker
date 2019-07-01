@@ -1,9 +1,11 @@
 package dk.hawkster.gamescoretracker.View.Whist;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -14,18 +16,21 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.hawkster.gamescoretracker.Model.Player;
 import dk.hawkster.gamescoretracker.R;
 
-public class WhistRoundResultActivity extends AppCompatActivity {
+public class WhistRoundResultActivity extends AppCompatActivity implements SuitsFragment.SuitsFragmentListener, SaveButtonFragment.SaveButtonListener {
 
     List<String> players;
 
     RadioGroup rgGameModePoints, rgGameMode, rgSun;
-    CheckBox cbOnTheTable, cbPlayer1, cbPlayer2, cbPlayer3, cbPlayer4;
-    LinearLayout llSuits, llPlayerPlaying, llWhip;
-    RadioButton rbWhip;
-    Spinner sDropDownMenu;
+    CheckBox cbOnTheTable;
+    LinearLayout llPlayerPlaying, llViewContainer, llTrickContainer;
+    RadioButton rbWhip, rbCleanSun, rbSun, rbWithout;
+    List<CheckBox> cbPlayers;
+    List<SpinnerFragment> tricksCounters;
+    SuitsFragment suitsFragment;
+    SpinnerFragment whipSpinner;
+    SaveButtonFragment saveButtonFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,40 +57,36 @@ public class WhistRoundResultActivity extends AppCompatActivity {
 
         cbOnTheTable = findViewById(R.id.checkbox_on_the_table);
 
-        llSuits = findViewById(R.id.suits_container);
         llPlayerPlaying = findViewById(R.id.players_playing_container);
-        llWhip = findViewById(R.id.whip_container);
+        llViewContainer = findViewById(R.id.view_container);
+        llTrickContainer = findViewById(R.id.trick_spinner_holder);
+
+        suitsFragment = new SuitsFragment();
+        whipSpinner = new SpinnerFragment();
+        saveButtonFragment = new SaveButtonFragment();
 
         rbWhip = findViewById(R.id.radiobutton_whip);
+        rbCleanSun = findViewById(R.id.radiobutton_clean_sun);
+        rbSun = findViewById(R.id.radiobutton_sun);
+        rbWithout = findViewById(R.id.radiobutton_without);
 
-        sDropDownMenu = findViewById(R.id.spinner_whip);
-        setupSpinner();
+        cbPlayers = new ArrayList<>();
+        tricksCounters = new ArrayList<>();
+
 
         setupPlayers();
 
     }
 
-    public void setupSpinner(){
-        List<String> numberOfWhips = new ArrayList<>();
-        numberOfWhips.add("1");
-        numberOfWhips.add("2");
-        numberOfWhips.add("3");
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, numberOfWhips);
-        sDropDownMenu.setAdapter(arrayAdapter);
-
-    }
-
     public void setupPlayers(){
-        cbPlayer1 = findViewById(R.id.checkbox_player1);
-        cbPlayer2 = findViewById(R.id.checkbox_player2);
-        cbPlayer3 = findViewById(R.id.checkbox_player3);
-        cbPlayer4 = findViewById(R.id.checkbox_player4);
+        cbPlayers.add((CheckBox) findViewById(R.id.checkbox_player1));
+        cbPlayers.add((CheckBox) findViewById(R.id.checkbox_player2));
+        cbPlayers.add((CheckBox) findViewById(R.id.checkbox_player3));
+        cbPlayers.add((CheckBox) findViewById(R.id.checkbox_player4));
 
-        cbPlayer1.setText(players.get(0));
-        cbPlayer2.setText(players.get(1));
-        cbPlayer3.setText(players.get(2));
-        cbPlayer4.setText(players.get(3));
+        for (int i = 0; i < cbPlayers.size(); i++) {
+            cbPlayers.get(i).setText(players.get(i));
+        }
     }
 
     public void normalGameModeChosen(View view) {
@@ -96,10 +97,22 @@ public class WhistRoundResultActivity extends AppCompatActivity {
         llPlayerPlaying.setVisibility(LinearLayout.INVISIBLE);
 
         if(gameModePoints >= 0 && gameMode >= 0 ){
-          llSuits.setVisibility(LinearLayout.VISIBLE);
+            if(gameMode != rbWithout.getId()) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.suits_holder, suitsFragment).commit();
+            }else{
+                llPlayerPlaying.setVisibility(LinearLayout.VISIBLE);
+            }
+
             int whipButton = rbWhip.getId();
             if(gameMode == whipButton){
-                llWhip.setVisibility(LinearLayout.VISIBLE);
+                Bundle args = new Bundle();
+                args.putString("ST", "Antal vip:");
+                args.putInt("SV", 3);
+
+                whipSpinner.setArguments(args);
+                getSupportFragmentManager().beginTransaction().
+                        add(R.id.whip_spinner_holder, whipSpinner).commit();
+
             }
         }
     }
@@ -107,7 +120,6 @@ public class WhistRoundResultActivity extends AppCompatActivity {
     public void sunGameModeChosen(View view) {
         rgGameMode.clearCheck();
         rgGameModePoints.clearCheck();
-        llSuits.setVisibility(LinearLayout.VISIBLE);
 
         int sunMode = rgSun.getCheckedRadioButtonId();
 
@@ -116,8 +128,169 @@ public class WhistRoundResultActivity extends AppCompatActivity {
         }
     }
 
-    public void suitChosen(View view) {
-        llPlayerPlaying.setVisibility(LinearLayout.VISIBLE);
+    public void playerSelected(View view) {
+        int checker = rgSun.getCheckedRadioButtonId();
+        int numberOfCheked = 0;
 
+        List<CheckBox> boxesChecked = new ArrayList<>();
+
+        for (CheckBox c: cbPlayers) {
+            if (c.isChecked()) {
+                numberOfCheked++;
+                boxesChecked.add(c);
+            }
+        }
+        if(checker >= 0 && numberOfCheked > 0){
+            llTrickContainer.removeAllViews();
+            for (CheckBox cb: boxesChecked) {
+                Bundle args = new Bundle();
+                args.putString("ST", cb.getText().toString() + "s stik:");
+                args.putInt("SV", 13);
+
+                SpinnerFragment spinnerFragment = new SpinnerFragment();
+                spinnerFragment.setArguments(args);
+                getSupportFragmentManager().beginTransaction().
+                        add(R.id.trick_spinner_holder, spinnerFragment).commit();
+                tricksCounters.add(spinnerFragment);
+            }
+        } else if(tricksCounters.size() <   1){
+            Bundle args = new Bundle();
+            args.putString("ST", "Antal stik");
+            args.putInt("SV", 13);
+
+            SpinnerFragment spinnerFragment = new SpinnerFragment();
+            spinnerFragment.setArguments(args);
+            getSupportFragmentManager().beginTransaction().
+                    add(R.id.trick_spinner_holder, spinnerFragment).commit();
+            tricksCounters.add(spinnerFragment);
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.save_button_holder, saveButtonFragment).commit();
+
+    }
+
+    @Override
+    public void suitsUpdated() {
+        llPlayerPlaying.setVisibility(LinearLayout.VISIBLE);
+    }
+
+    @Override
+    public void saveButtonClicked() {
+        Intent returnIntent = new Intent();
+        int gameMode = getGameMode();
+        returnIntent.putExtra("GameMode", gameMode);
+        if (gameMode < 5){
+            int tricksRequired;
+            RadioButton checkedModeButton = findViewById(rgGameModePoints.getCheckedRadioButtonId());
+            tricksRequired = Integer.parseInt(checkedModeButton.getText().toString());
+            returnIntent.putExtra("TricksRequired", tricksRequired);
+            if(gameMode != 2){
+                int suitChosen = getSuit();
+                returnIntent.putExtra("Suit", suitChosen);
+            }
+            if(gameMode == 3){
+                int numberOfWhips = Integer.parseInt(whipSpinner.getItemSelected());
+                returnIntent.putExtra("Whips", numberOfWhips);
+            }
+        }
+        int[] tricks = getNumberOfTricks();
+        returnIntent.putExtra("Tricks", tricks);
+
+        int[] playerIndexes = getPlayerIndexes();
+        returnIntent.putExtra("Players", playerIndexes);
+
+
+
+
+
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+
+    }
+
+    public int getGameMode(){
+        int gameMode = 0;
+        int sunGameMode = rgSun.getCheckedRadioButtonId();
+
+        if(sunGameMode < 0){
+            RadioButton mode = findViewById(rgGameMode.getCheckedRadioButtonId());
+            switch(mode.getText().toString()){
+                case "Med":
+                    gameMode = 1;
+                    break;
+                case "Uden":
+                    gameMode = 2;
+                    break;
+                case "Halve":
+                    gameMode = 3;
+                    break;
+                case "Vip":
+                    gameMode = 4;
+                    break;
+            }
+        }else{
+            if (sunGameMode == rbSun.getId()){
+                gameMode = 5;
+                if(cbOnTheTable.isChecked()){
+                    gameMode = 6;
+                }
+
+            }else if(sunGameMode == rbCleanSun.getId()){
+                gameMode = 7;
+                if(cbOnTheTable.isChecked()){
+                    gameMode = 8;
+                }
+            }
+        }
+
+        return gameMode;
+    }
+
+    public int getSuit(){
+        RadioButton checkedSuitButton = suitsFragment.getCheckedButton();
+        int suitChosen = 0;
+
+        switch (checkedSuitButton.getText().toString()){
+            case "Hjerter":
+                suitChosen = 1;
+                break;
+            case "Spar":
+                suitChosen = 2;
+                break;
+            case "Ruder":
+                suitChosen = 3;
+                break;
+            case "Klør":
+                suitChosen = 4;
+                break;
+        }
+        return suitChosen;
+
+    }
+
+    public int[] getNumberOfTricks(){
+        int[] tricks = new int[tricksCounters.size()];
+
+        for (int i = 0; i < tricksCounters.size(); i++) {
+            tricks[i] = Integer.parseInt(tricksCounters.get(i).getItemSelected());
+        }
+
+        return tricks;
+    }
+
+    public int[] getPlayerIndexes(){
+        List<Integer> indexes = new ArrayList<>();
+        int counter = 0;
+
+        for (CheckBox cb: cbPlayers) {
+            if (cb.isChecked()){
+                indexes.add(counter);
+            }
+        }
+        int[] players = new int[indexes.size()];
+        for (int i = 0; i < players.length; i++) {
+            players[i] = indexes.get(i);
+        }
+
+        return players;
     }
 }

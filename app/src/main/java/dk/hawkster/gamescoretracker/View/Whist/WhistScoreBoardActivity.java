@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.hawkster.gamescoretracker.R;
+import dk.hawkster.gamescoretracker.Viewmodel.WhistViewModel;
 
 public class WhistScoreBoardActivity extends AppCompatActivity {
 
@@ -43,7 +44,7 @@ public class WhistScoreBoardActivity extends AppCompatActivity {
         Intent intent = new Intent(this, WhistRoundResultActivity.class);
         ArrayList<String> playerNames = new ArrayList<>(players);
         intent.putExtra("PP", playerNames);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     public void newRound(View view) {
