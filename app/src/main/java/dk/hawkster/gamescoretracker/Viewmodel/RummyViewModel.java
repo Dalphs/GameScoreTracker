@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.hawkster.gamescoretracker.Model.Player;
-import dk.hawkster.gamescoretracker.Observer.RummyViewModelObservable;
+import dk.hawkster.gamescoretracker.Observer.PushObservable;
 
-public class RummyViewModel extends RummyViewModelObservable {
+public class RummyViewModel extends PushObservable {
 
     private List<Player> players;
     private List<List<Double>> scoreBoard;

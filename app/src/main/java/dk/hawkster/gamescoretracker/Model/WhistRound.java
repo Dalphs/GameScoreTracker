@@ -1,5 +1,8 @@
 package dk.hawkster.gamescoretracker.Model;
 
+import android.util.Log;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class WhistRound {
@@ -21,6 +24,8 @@ public class WhistRound {
         this.numberOfTricks = numberOfTricks;
         this.playersWithDecision = playersWithDecision;
         scores = new int[4];
+        System.out.println(gameMode + " " + suit + " " + requiredPoints + " " + numberOfWhips
+                + " " + Arrays.toString(numberOfTricks) + " " + Arrays.toString(playersWithDecision));
 
     }
 
@@ -40,14 +45,22 @@ public class WhistRound {
         for (int i = 0; i < doubleScores.length; i++) {
             scores[i] = (int) Math.ceil(doubleScores[i]);
         }
+        System.out.println("Scores calculated: " + Arrays.toString(scores));
     }
 
     public double[] getStandardScores(){
         double[] doubleScores = new double[4];
+        boolean hasWon = numberOfTricks[0] > requiredPoints;
 
         double totalPoints = 0;
-        for (int i = 7; i <= numberOfTricks[0]; i++) {
-            totalPoints += 0.5;
+        if(hasWon) {
+            for (int i = 7; i <= numberOfTricks[0]; i++) {
+                totalPoints += 0.5;
+            }
+        }else{
+            for (int i = 6; i >= numberOfTricks[0]; i--) {
+                totalPoints -= 1;
+            }
         }
         int multiplier = 1;
         if (gameMode == 3){
@@ -79,6 +92,7 @@ public class WhistRound {
                 }
             }
         }
+        System.out.println("doubleScores calculated: " + Arrays.toString(doubleScores));
         return doubleScores;
     }
 

@@ -11,11 +11,9 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import dk.hawkster.gamescoretracker.Observer.RummyPlayerFragmentObserver;
-import dk.hawkster.gamescoretracker.Observer.RummyViewModelObserver;
+import dk.hawkster.gamescoretracker.Observer.PushObserver;
 import dk.hawkster.gamescoretracker.R;
 import dk.hawkster.gamescoretracker.Viewmodel.RummyViewModel;
 
@@ -74,7 +72,7 @@ public class RummyScoreboardActivity extends AppCompatActivity {
 
     }
 
-    public class ViewModelRummyObserver implements RummyViewModelObserver{
+    public class ViewModelRummyObserver implements PushObserver {
 
         @Override
         public void update() {

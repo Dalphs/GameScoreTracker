@@ -1,5 +1,5 @@
 package dk.hawkster.gamescoretracker.Observer;
 
-public interface RummyViewModelObserver {
+public interface PushObserver {
     void update();
 }

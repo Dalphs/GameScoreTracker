@@ -21,6 +21,7 @@
     <string name="text_view_game_played">Hvad blev der spillet?</string>
     <string name="text_view_suit_played">Hvilken kulør blev der spillet?</string>
     <string name="text_view_trick_count">Antal stik?</string>
+    <string name="text_view_whos_playing">Hvem spiller?</string>
 
     <string name="checkbox_sun">Sol</string>
     <string name="checkbox_clean_sun">Gran Sol</string>

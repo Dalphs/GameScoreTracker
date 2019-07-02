@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class SuitsFragment extends Fragment {
     List<RadioButton> radioButtons;
     RadioGroup radioGroup;
     SuitsFragmentListener listener;
+    boolean suitChosen;
 
     public interface SuitsFragmentListener{
         void suitsUpdated();
@@ -39,11 +41,15 @@ public class SuitsFragment extends Fragment {
         radioButtons.add((RadioButton) v.findViewById(R.id.radiobutton_hearts));
         radioButtons.add((RadioButton) v.findViewById(R.id.radiobutton_diamonds));
 
+        int checker = radioGroup.getCheckedRadioButtonId();
+        suitChosen = checker >= 0;
+
         for (RadioButton rb: radioButtons) {
             rb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.suitsUpdated();
+                    suitChosen = true;
                 }
             });
         }
@@ -60,6 +66,13 @@ public class SuitsFragment extends Fragment {
         }
     }
 
+    public void reset(){
+        for (RadioButton rb: radioButtons) {
+            rb.setChecked(false);
+        }
+        suitChosen = false;
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -68,5 +81,13 @@ public class SuitsFragment extends Fragment {
 
     public RadioButton getCheckedButton(){
         return getView().findViewById(radioGroup.getCheckedRadioButtonId());
+    }
+
+    public boolean isSuitChosen() {
+        return suitChosen;
+    }
+
+    public void setSuitChosen(boolean suitChosen) {
+        this.suitChosen = suitChosen;
     }
 }

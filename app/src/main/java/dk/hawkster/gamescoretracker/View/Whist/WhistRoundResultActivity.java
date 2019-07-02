@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,32 +96,62 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
         cbOnTheTable.setChecked(false);
         int gameModePoints = rgGameModePoints.getCheckedRadioButtonId();
         int gameMode = rgGameMode.getCheckedRadioButtonId();
-        llPlayerPlaying.setVisibility(LinearLayout.INVISIBLE);
 
         if(gameModePoints >= 0 && gameMode >= 0 ){
             if(gameMode != rbWithout.getId()) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.suits_holder, suitsFragment).commit();
+                if(!suitsFragment.isAdded()) {
+                    getSupportFragmentManager().beginTransaction().add(R.id.suits_holder, suitsFragment).commit();
+                }
             }else{
+                llPlayerPlaying.setVisibility(LinearLayout.VISIBLE);
+                if(suitsFragment.isAdded()) {
+                    getSupportFragmentManager().beginTransaction().remove(suitsFragment).commit();
+                    suitsFragment.reset();
+                }
+            }
+            if(suitsFragment.isSuitChosen() || gameMode == rbWithout.getId()){
                 llPlayerPlaying.setVisibility(LinearLayout.VISIBLE);
             }
 
             int whipButton = rbWhip.getId();
             if(gameMode == whipButton){
-                Bundle args = new Bundle();
-                args.putString("ST", "Antal vip:");
-                args.putInt("SV", 3);
+                if(!whipSpinner.isAdded()) {
+                    Bundle args = new Bundle();
+                    args.putString("ST", "Antal vip:");
+                    args.putInt("SV", 3);
 
-                whipSpinner.setArguments(args);
-                getSupportFragmentManager().beginTransaction().
-                        add(R.id.whip_spinner_holder, whipSpinner).commit();
-
+                    whipSpinner.setArguments(args);
+                    getSupportFragmentManager().beginTransaction().
+                            add(R.id.whip_spinner_holder, whipSpinner).commit();
+                }
+            }else{
+                getSupportFragmentManager().beginTransaction().remove(whipSpinner).commit();
             }
+        }else{
+            getSupportFragmentManager().beginTransaction().remove(saveButtonFragment).commit();
+            unchceckPlayers();
+            llPlayerPlaying.setVisibility(View.INVISIBLE);
+        }
+        if (gameMode != rbWithout.getId() && !suitsFragment.isSuitChosen()){
+            getSupportFragmentManager().beginTransaction().remove(saveButtonFragment).commit();
+            unchceckPlayers();
+            llPlayerPlaying.setVisibility(View.INVISIBLE);
         }
     }
 
     public void sunGameModeChosen(View view) {
         rgGameMode.clearCheck();
         rgGameModePoints.clearCheck();
+        getSupportFragmentManager().beginTransaction().remove(suitsFragment).remove(whipSpinner).commit();
+        if(suitsFragment.isSuitChosen()) {
+            suitsFragment.reset();
+        }
+        getSupportFragmentManager().beginTransaction().remove(saveButtonFragment).commit();
+        unchceckPlayers();
+
+        if (tricksCounters.size() > 0){
+            getSupportFragmentManager().beginTransaction().remove(tricksCounters.get(0)).commit();
+        }
 
         int sunMode = rgSun.getCheckedRadioButtonId();
 
@@ -130,18 +162,19 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
 
     public void playerSelected(View view) {
         int checker = rgSun.getCheckedRadioButtonId();
-        int numberOfCheked = 0;
+        int numberOfChecked = 0;
 
         List<CheckBox> boxesChecked = new ArrayList<>();
 
         for (CheckBox c: cbPlayers) {
             if (c.isChecked()) {
-                numberOfCheked++;
+                numberOfChecked++;
                 boxesChecked.add(c);
             }
         }
-        if(checker >= 0 && numberOfCheked > 0){
+        if(checker >= 0 && numberOfChecked >= 0){
             llTrickContainer.removeAllViews();
+            tricksCounters.clear();
             for (CheckBox cb: boxesChecked) {
                 Bundle args = new Bundle();
                 args.putString("ST", cb.getText().toString() + "s stik:");
@@ -163,9 +196,22 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
             getSupportFragmentManager().beginTransaction().
                     add(R.id.trick_spinner_holder, spinnerFragment).commit();
             tricksCounters.add(spinnerFragment);
+        } else if(numberOfChecked == 3){
+            CheckBox checkBox = (CheckBox) view;
+            checkBox.setChecked(false);
+            Toast toast = Toast.makeText(this, "Max 2 makkere", Toast.LENGTH_SHORT);
+            toast.show();
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.save_button_holder, saveButtonFragment).commit();
 
+    }
+
+    public void unchceckPlayers(){
+        for (CheckBox cb: cbPlayers) {
+            cb.setChecked(false);
+        }
+        llTrickContainer.removeAllViews();
+        tricksCounters.clear();
     }
 
     @Override
@@ -276,12 +322,13 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
 
     public int[] getPlayerIndexes(){
         List<Integer> indexes = new ArrayList<>();
-        int counter = 0;
+        int counter = 1;
 
         for (CheckBox cb: cbPlayers) {
             if (cb.isChecked()){
                 indexes.add(counter);
             }
+            counter++;
         }
         int[] players = new int[indexes.size()];
         for (int i = 0; i < players.length; i++) {

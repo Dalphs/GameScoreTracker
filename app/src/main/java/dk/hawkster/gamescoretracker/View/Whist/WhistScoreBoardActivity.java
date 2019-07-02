@@ -4,19 +4,26 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import dk.hawkster.gamescoretracker.R;
 import dk.hawkster.gamescoretracker.Viewmodel.WhistViewModel;
 
-public class WhistScoreBoardActivity extends AppCompatActivity {
+public class WhistScoreBoardActivity extends AppCompatActivity implements WhistViewModel.WhistViewModelListener {
 
-    LinearLayout llContainer;
+    LinearLayout llContainer, llRounds;
     Bundle extras;
+    List<TextView> tvPlayers;
+    List<String> players;
+    WhistViewModel whistViewModel;
+    List<WhistRoundFragment> roundFragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +31,18 @@ public class WhistScoreBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_whist_score_board);
 
         llContainer = findViewById(R.id.linear_layout_whist_players);
+        llRounds = findViewById(R.id.rounds_container);
+
+        roundFragments = new ArrayList<>();
+        tvPlayers = new ArrayList<>();
+        tvPlayers.add((TextView) findViewById(R.id.text_view_player1));
+        tvPlayers.add((TextView) findViewById(R.id.text_view_player2));
+        tvPlayers.add((TextView) findViewById(R.id.text_view_player3));
+        tvPlayers.add((TextView) findViewById(R.id.text_view_player4));
 
         extras = getIntent().getExtras();
 
-        List<String> players = new ArrayList<>();
+        players = new ArrayList<>();
         Object extraPP = extras.get("PP");
         if (extraPP instanceof ArrayList<?>) {
             ArrayList<?> al = (ArrayList<?>) extraPP;
@@ -35,20 +50,27 @@ public class WhistScoreBoardActivity extends AppCompatActivity {
                 for (int i = 0; i < al.size(); i++) {
                     if (al.get(i) instanceof String) {
                         players.add((String) al.get(i));
+                        tvPlayers.get(i).setText((String) al.get(i));
                     }
                 }
             }
         }
 
-        WhistViewModel whistViewModel = new WhistViewModel(players);
+        whistViewModel = new WhistViewModel(players);
+        whistViewModel.addListener(this);
+
+    }
+
+    public void newRound(View view) {
+
+        WhistRoundFragment whistRoundFragment = new WhistRoundFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.rounds_container, whistRoundFragment).commit();
+        roundFragments.add(whistRoundFragment);
 
         Intent intent = new Intent(this, WhistRoundResultActivity.class);
         ArrayList<String> playerNames = new ArrayList<>(players);
         intent.putExtra("PP", playerNames);
         startActivityForResult(intent, 1);
-    }
-
-    public void newRound(View view) {
     }
 
     @Override
@@ -73,8 +95,16 @@ public class WhistScoreBoardActivity extends AppCompatActivity {
                     whip = data.getIntExtra("Whips", -1);
                 }
             }
+            whistViewModel.addNewWhistRound(gameMode, tricksRequired, suit, whip, tricks, players);
         }
 
+
+    }
+
+    @Override
+    public void newScoresCalculated(int[] scores) {
+        WhistRoundFragment whistRoundFragment = roundFragments.get(roundFragments.size() - 1);
+        whistRoundFragment.setScores(scores);
 
     }
 }

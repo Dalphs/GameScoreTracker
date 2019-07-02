@@ -30,6 +30,15 @@ public class WhistRoundTest {
     }
 
     @Test
+    public void whistRoundCalculator7with6tricks() {
+        WhistRound whistRound = new WhistRound(1, 2, 7,
+                null, new int[]{6}, new int[]{1, 2});
+        int[] expected = new int[]{-1, -1, 1, 1};
+        whistRound.calculateScores();
+        assertArrayEquals(expected, whistRound.getScores());
+    }
+
+    @Test
     public void whistRoundCalculator7with10tricksOnly1Winner() {
         WhistRound whistRound = new WhistRound(1, 2, 7,
                 null, new int[]{10}, new int[]{1});
