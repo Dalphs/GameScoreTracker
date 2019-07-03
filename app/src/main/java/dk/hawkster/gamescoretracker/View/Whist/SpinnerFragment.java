@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,11 +28,17 @@ import dk.hawkster.gamescoretracker.R;
 
 public class SpinnerFragment extends Fragment {
 
-    private TextView textView;
     private Spinner spinner;
     private Context context;
-    int number;
-    String text;
+    ArrayList<String> adapter;
+    SpinnerFragmentListener listener;
+    boolean whipSpinner;
+    boolean numberElementChosen;
+
+    public interface SpinnerFragmentListener{
+        void elementChosen();
+        void defaultElementChosen();
+    }
 
     @Nullable
     @Override
@@ -38,43 +46,78 @@ public class SpinnerFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_spinner, container, false);
 
         context = v.getContext();
+        adapter = new ArrayList<>();
 
-
-        textView = v.findViewById(R.id.text_view_spinner);
         spinner = v.findViewById(R.id.spinner_spinner_fragment);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                numberElementChosen = position != 0;
+                if(whipSpinner){
+                    if(numberElementChosen)
+                        listener.elementChosen();
+                    else
+                        listener.defaultElementChosen();
+                }
+            }
 
-        textView.setText(text);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        ArrayList<String> adapter = new ArrayList<>();
-        for (int i = 0; i <= number; i++) {
-            adapter.add(Integer.toString(i));
+            }
+        });
+
+        Bundle args = getArguments();
+
+        if (args != null) {
+            whipSpinner = args.getBoolean("isWhipSpinner");
+            String type = args.getString("type");
+            if (type.equals("counterSpinner")) {
+                String title = args.getString("title");
+                int amount = args.getInt("amount");
+                boolean ascending = args.getBoolean("ascending");
+                boolean includeZero = args.getBoolean("includeZero");
+
+
+                adapter.add(title);
+                if (ascending) {
+                    for (int i = includeZero ? 0 : 1; i <= amount; i++) {
+                        adapter.add(String.valueOf(i));
+                    }
+                } else {
+                    for (int i = amount; i >= (includeZero ? 0 : 1); i--) {
+                        adapter.add(String.valueOf(i));
+                    }
+                }
+            }else if (type.equals("stringSpinner")){
+                adapter = args.getStringArrayList("elementsList");
+            }
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item, adapter);
+            spinner.setAdapter(arrayAdapter);
+        }else {
+            throw new RuntimeException("SpinnerFragment must have arguments");
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item, adapter);
-        spinner.setAdapter(arrayAdapter);
 
         return v;
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Bundle bundle = getArguments();
-
-        number = bundle.getInt("SV");
-        text = bundle.getString("ST");
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof SpinnerFragmentListener){
+            listener = (SpinnerFragmentListener) context;
+        } else{
+            throw new RuntimeException(context.toString() + " must implement SaveButtonListener");
+        }
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 
     public String getItemSelected(){
         return spinner.getSelectedItem().toString();
-    }
-
-    public void setEditText(String s){
-        textView.setText(s);
     }
 }

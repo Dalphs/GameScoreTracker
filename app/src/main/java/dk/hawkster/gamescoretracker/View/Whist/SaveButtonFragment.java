@@ -15,7 +15,7 @@ import dk.hawkster.gamescoretracker.R;
 public class SaveButtonFragment extends Fragment {
 
     private Button button;
-    private SaveButtonListener saveButtonListener;
+    private SaveButtonListener listener;
 
     public interface SaveButtonListener{
         void saveButtonClicked();
@@ -30,7 +30,7 @@ public class SaveButtonFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveButtonListener.saveButtonClicked();
+                listener.saveButtonClicked();
             }
         });
 
@@ -41,9 +41,15 @@ public class SaveButtonFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if(context instanceof SaveButtonListener){
-            saveButtonListener = (SaveButtonListener) context;
+            listener = (SaveButtonListener) context;
         } else{
             throw new RuntimeException(context.toString() + " must implement SaveButtonListener");
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 }

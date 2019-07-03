@@ -20,7 +20,8 @@ import java.util.List;
 
 import dk.hawkster.gamescoretracker.R;
 
-public class WhistRoundResultActivity extends AppCompatActivity implements SuitsFragment.SuitsFragmentListener, SaveButtonFragment.SaveButtonListener {
+public class WhistRoundResultActivity extends AppCompatActivity implements SuitsFragment.SuitsFragmentListener,
+        SaveButtonFragment.SaveButtonListener, SpinnerFragment.SpinnerFragmentListener {
 
     List<String> players;
 
@@ -117,8 +118,13 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
             if(gameMode == whipButton){
                 if(!whipSpinner.isAdded()) {
                     Bundle args = new Bundle();
-                    args.putString("ST", "Antal vip:");
-                    args.putInt("SV", 3);
+                    args.putString("type", "counterSpinner");
+                    args.putString("title", "Antal vip");
+                    args.putInt("amount", 3);
+                    args.putBoolean("ascending", true);
+                    args.putBoolean("includeZero", false);
+                    args.putBoolean("isWhipSpinner", true);
+
 
                     whipSpinner.setArguments(args);
                     getSupportFragmentManager().beginTransaction().
@@ -177,8 +183,11 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
             tricksCounters.clear();
             for (CheckBox cb: boxesChecked) {
                 Bundle args = new Bundle();
-                args.putString("ST", cb.getText().toString() + "s stik:");
-                args.putInt("SV", 13);
+                args.putString("type", "counterSpinner");
+                args.putString("title", cb.getText().toString() + "s stik");
+                args.putInt("amount", 13);
+                args.putBoolean("ascending", true);
+                args.putBoolean("includeZero", true);
 
                 SpinnerFragment spinnerFragment = new SpinnerFragment();
                 spinnerFragment.setArguments(args);
@@ -188,8 +197,11 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
             }
         } else if(tricksCounters.size() <   1){
             Bundle args = new Bundle();
-            args.putString("ST", "Antal stik");
-            args.putInt("SV", 13);
+            args.putString("type", "counterSpinner");
+            args.putString("title", "Antal stik");
+            args.putInt("amount", 13);
+            args.putBoolean("ascending", false);
+            args.putBoolean("includeZero", true);
 
             SpinnerFragment spinnerFragment = new SpinnerFragment();
             spinnerFragment.setArguments(args);
@@ -336,5 +348,15 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
         }
 
         return players;
+    }
+
+    @Override
+    public void elementChosen() {
+        Log.d("ttt", "elementChosen: ");
+    }
+
+    @Override
+    public void defaultElementChosen() {
+        Log.d("ttt", "defaultElementChosen: ");
     }
 }

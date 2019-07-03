@@ -4,15 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:id="@+id/text_view_spinner"
-        android:layout_marginLeft="20dp" />
-
     <Spinner
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinner_spinner_fragment"
         android:layout_marginTop="10dp"
