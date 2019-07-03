@@ -9,28 +9,56 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/fragment_whist_round_player1"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/fragment_whist_round_player2"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/fragment_whist_round_player3"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/fragment_whist_round_player4"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"/>
 
 </LinearLayout>

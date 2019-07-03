@@ -24,6 +24,7 @@ public class WhistScoreBoardActivity extends AppCompatActivity implements WhistV
     List<String> players;
     WhistViewModel whistViewModel;
     List<WhistRoundFragment> roundFragments;
+    WhistRoundFragment summedScores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,14 @@ public class WhistScoreBoardActivity extends AppCompatActivity implements WhistV
 
         whistViewModel = new WhistViewModel(players);
         whistViewModel.addListener(this);
+
+        Bundle args = new Bundle();
+        args.putIntArray("startValues", new int[]{0, 0, 0, 0});
+
+        summedScores = new WhistRoundFragment();
+        summedScores.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.summed_scores_holder, summedScores).commit();
 
     }
 
@@ -105,6 +114,7 @@ public class WhistScoreBoardActivity extends AppCompatActivity implements WhistV
     public void newScoresCalculated(int[] scores) {
         WhistRoundFragment whistRoundFragment = roundFragments.get(roundFragments.size() - 1);
         whistRoundFragment.setScores(scores);
+        summedScores.addToScores(scores);
 
     }
 }

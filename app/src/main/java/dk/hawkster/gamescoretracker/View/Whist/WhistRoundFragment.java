@@ -30,12 +30,26 @@ public class WhistRoundFragment extends Fragment {
         players.add((TextView) v.findViewById(R.id.fragment_whist_round_player3));
         players.add((TextView) v.findViewById(R.id.fragment_whist_round_player4));
 
+        if(getArguments() != null){
+            setScores(getArguments().getIntArray("startValues"));
+        }
+
         return v;
     }
 
     public void setScores(int[] scores){
         for (int i = 0; i < scores.length; i++) {
             players.get(i).setText(String.valueOf(scores[i]));
+        }
+    }
+
+    public void addToScores(int[] additionalScores){
+        for (int i = 0; i < additionalScores.length; i++) {
+            TextView textView = players.get(i);
+            int currentScore = Integer.parseInt(textView.getText().toString());
+            int updatedScore = currentScore + additionalScores[i];
+
+            textView.setText(String.valueOf(updatedScore));
         }
     }
 
