@@ -27,9 +27,9 @@ public class WhistGame {
         this.listener = listener;
     }
 
-    public void addNewRound (Integer gameMode, Integer requiredTricks, Integer suit,
+    public void addNewRound (Integer gameMode, Integer suit, Integer requiredTricks,
                             Integer whips, int[] tricks, int[] players){
-       WhistRound whistRound = new WhistRound(gameMode, suit,requiredTricks, whips, tricks, players);
+       WhistRound whistRound = new WhistRound(gameMode, suit, requiredTricks, whips, tricks, players);
         Log.d("----", "onActivityResult: " + gameMode + " " + requiredTricks + " " + suit + " " + whips);
        whistRound.calculateScores();
         Log.d("-----", "addNewRound: " + Arrays.toString(whistRound.getScores()));

@@ -41,7 +41,7 @@ public class WhistViewModel implements WhistGame.WhistGameListener {
         return players;
     }
 
-    public void addNewWhistRound(Integer gameMode, Integer requiredTricks, Integer suit,
+    public void addNewWhistRound(Integer gameMode, Integer suit, Integer requiredTricks,
                                  Integer whips, int[] tricks, int[] players){
         whistGame.addNewRound(gameMode, suit, requiredTricks, whips, tricks, players);
     }

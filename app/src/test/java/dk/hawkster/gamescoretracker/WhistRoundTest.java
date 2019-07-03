@@ -20,6 +20,16 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class WhistRoundTest {
+
+    @Test
+    public void whistRoundCalculator7with7tricks() {
+        WhistRound whistRound = new WhistRound(1, 2, 7,
+                null, new int[]{7}, new int[]{1, 2});
+        int[] expected = new int[]{1, 1, -1, -1};
+        whistRound.calculateScores();
+        assertArrayEquals(expected, whistRound.getScores());
+    }
+
     @Test
     public void whistRoundCalculator7with10tricks() {
         WhistRound whistRound = new WhistRound(1, 2, 7,
@@ -30,10 +40,37 @@ public class WhistRoundTest {
     }
 
     @Test
+    public void whistRoundCalculator7with9tricks() {
+        WhistRound whistRound = new WhistRound(1, 2, 7,
+                null, new int[]{9}, new int[]{1, 2});
+        int[] expected = new int[]{2, 2, -2, -2};
+        whistRound.calculateScores();
+        assertArrayEquals(expected, whistRound.getScores());
+    }
+
+    @Test
     public void whistRoundCalculator7with6tricks() {
         WhistRound whistRound = new WhistRound(1, 2, 7,
                 null, new int[]{6}, new int[]{1, 2});
         int[] expected = new int[]{-1, -1, 1, 1};
+        whistRound.calculateScores();
+        assertArrayEquals(expected, whistRound.getScores());
+    }
+
+    @Test
+    public void whistRoundCalculator9with8tricks() {
+        WhistRound whistRound = new WhistRound(1, 2, 9,
+                null, new int[]{8}, new int[]{1, 2});
+        int[] expected = new int[]{-3, -3, 3, 3};
+        whistRound.calculateScores();
+        assertArrayEquals(expected, whistRound.getScores());
+    }
+
+    @Test
+    public void whistRoundCalculator9with6tricks() {
+        WhistRound whistRound = new WhistRound(1, 2, 9,
+                null, new int[]{6}, new int[]{1, 2});
+        int[] expected = new int[]{-9, -9, 9, 9};
         whistRound.calculateScores();
         assertArrayEquals(expected, whistRound.getScores());
     }
@@ -75,13 +112,33 @@ public class WhistRoundTest {
     }
 
     @Test
-    public void whistRoundCalculator7Whip10trickswhipped3TimesAndClubs() {
+    public void whistRoundCalculator7Whip10tricksWhipped3TimesAndClubs() {
         WhistRound whistRound = new WhistRound(4, 4, 7,
                 3, new int[]{10}, new int[]{1, 2});
         int[] expected = new int[]{32, 32, -32, -32};
         whistRound.calculateScores();
         assertArrayEquals(expected, whistRound.getScores());
     }
+
+    @Test
+    public void whistRoundCalculator9Whip10tricksWhipped3TimesAndClubs() {
+        WhistRound whistRound = new WhistRound(4, 4, 9,
+                3, new int[]{10}, new int[]{1, 2});
+        int[] expected = new int[]{48, 48, -48, -48};
+        whistRound.calculateScores();
+        assertArrayEquals(expected, whistRound.getScores());
+    }
+
+
+    @Test
+    public void whistRoundCalculator10Whip13tricksWhipped3TimesAndClubs() {
+        WhistRound whistRound = new WhistRound(4, 4, 10,
+                3, new int[]{13}, new int[]{1, 2});
+        int[] expected = new int[]{256, 256, -256, -256};
+        whistRound.calculateScores();
+        assertArrayEquals(expected, whistRound.getScores());
+    }
+
 
     @Test
     public void whistRoundCalculatorSunWon() {
@@ -190,10 +247,4 @@ public class WhistRoundTest {
         whistRound.calculateScores();
         assertArrayEquals(expected, whistRound.getScores());
     }
-
-
-
-
-
-    //WhistRound whistRound = new WhistRound(gameMode, suit,requiredTricks, whips, tricks, players);
 }

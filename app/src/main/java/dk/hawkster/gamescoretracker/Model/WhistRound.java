@@ -43,25 +43,23 @@ public class WhistRound {
         }
 
         for (int i = 0; i < doubleScores.length; i++) {
-            scores[i] = (int) Math.ceil(doubleScores[i]);
+            double score = doubleScores[i] > 0 ? Math.ceil(doubleScores[i]) : Math.floor(doubleScores[i]);
+            scores[i] = (int) score;
         }
         System.out.println("Scores calculated: " + Arrays.toString(scores));
     }
 
     public double[] getStandardScores(){
         double[] doubleScores = new double[4];
-        boolean hasWon = numberOfTricks[0] > requiredPoints;
+        int tricks = numberOfTricks[0];
+        boolean hasWon = tricks >= requiredPoints;
 
-        double totalPoints = 0;
-        if(hasWon) {
-            for (int i = 7; i <= numberOfTricks[0]; i++) {
-                totalPoints += 0.5;
+        double pointsPerTrick = 0;
+
+        for (int i = 7; i <= requiredPoints; i++) {
+            pointsPerTrick += 0.5;
             }
-        }else{
-            for (int i = 6; i >= numberOfTricks[0]; i--) {
-                totalPoints -= 1;
-            }
-        }
+
         int multiplier = 1;
         if (gameMode == 3){
             multiplier += multiplier;
@@ -70,25 +68,34 @@ public class WhistRound {
                 multiplier += multiplier;
             }
         }
-        if (suit == 4){
-            multiplier += multiplier;;
-        }
-        if(numberOfTricks[0] == 13){
+        if(!hasWon){
             multiplier += multiplier;
         }
-        totalPoints *= multiplier;
+        if(suit != null) {
+            if (suit == 4) {
+                multiplier += multiplier;
+            }
+        }
+        if(tricks == 13){
+            multiplier += multiplier;
+        }
+
+
+        int pointAwardingTricks = hasWon ? tricks - requiredPoints + 1 : tricks - requiredPoints;
+        double totalPointsPerPlayer = pointAwardingTricks * pointsPerTrick * multiplier;
+
         if(playersWithDecision.length == 1){
             for (int i = 0; i < doubleScores.length; i++) {
-                doubleScores[i] = playersWithDecision[0] == i + 1 ? totalPoints * 3 : -totalPoints;
+                doubleScores[i] = playersWithDecision[0] == i + 1 ? totalPointsPerPlayer * 3 : -totalPointsPerPlayer;
             }
         }else {
             for (int i = 0; i < doubleScores.length; i++) {
                 if(playersWithDecision[0] == i + 1){
-                    doubleScores[i] = totalPoints;
+                    doubleScores[i] = totalPointsPerPlayer;
                 }else if (playersWithDecision[1] == i + 1){
-                    doubleScores[i] = totalPoints;
+                    doubleScores[i] = totalPointsPerPlayer;
                 }else{
-                    doubleScores[i] = -totalPoints;
+                    doubleScores[i] = -totalPointsPerPlayer;
                 }
             }
         }

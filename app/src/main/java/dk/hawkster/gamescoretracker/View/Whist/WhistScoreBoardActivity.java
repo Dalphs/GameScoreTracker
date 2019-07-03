@@ -95,7 +95,7 @@ public class WhistScoreBoardActivity extends AppCompatActivity implements WhistV
                     whip = data.getIntExtra("Whips", -1);
                 }
             }
-            whistViewModel.addNewWhistRound(gameMode, tricksRequired, suit, whip, tricks, players);
+            whistViewModel.addNewWhistRound(gameMode, suit, tricksRequired, whip, tricks, players);
         }
 
 
