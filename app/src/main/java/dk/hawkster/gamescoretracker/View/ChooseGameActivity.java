@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -62,9 +64,10 @@ public class ChooseGameActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-        AlertDialog dialog = mBuilder.create();
-        dialog.show();
 
+        AlertDialog dialog = mBuilder.create();
+        dialog.setContentView(R.layout.fragment_save_button);
+        dialog.show();
     }
 
     private void startNextActivity(ArrayList<Integer> chosenPlayers) {
