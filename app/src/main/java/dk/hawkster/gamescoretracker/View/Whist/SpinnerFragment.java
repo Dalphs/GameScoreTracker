@@ -120,4 +120,8 @@ public class SpinnerFragment extends Fragment {
     public String getItemSelected(){
         return spinner.getSelectedItem().toString();
     }
+
+    public boolean isNumberElementChosen() {
+        return numberElementChosen;
+    }
 }

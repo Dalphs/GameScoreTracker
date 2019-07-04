@@ -100,7 +100,7 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
 
         if(gameModePoints >= 0 && gameMode >= 0 ){
             if(gameMode != rbWithout.getId()) {
-                if(!suitsFragment.isAdded()) {
+                if(!suitsFragment.isAdded() && gameMode != rbWhip.getId()) {
                     getSupportFragmentManager().beginTransaction().add(R.id.suits_holder, suitsFragment).commit();
                 }
             }else{
@@ -224,6 +224,10 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
         }
         llTrickContainer.removeAllViews();
         tricksCounters.clear();
+        if(suitsFragment.isAdded()){
+            suitsFragment.reset();
+            getSupportFragmentManager().beginTransaction().remove(suitsFragment).commit();
+        }
     }
 
     @Override
@@ -233,32 +237,43 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
 
     @Override
     public void saveButtonClicked() {
-        Intent returnIntent = new Intent();
-        int gameMode = getGameMode();
-        returnIntent.putExtra("GameMode", gameMode);
-        if (gameMode < 5){
-            int tricksRequired;
-            RadioButton checkedModeButton = findViewById(rgGameModePoints.getCheckedRadioButtonId());
-            tricksRequired = Integer.parseInt(checkedModeButton.getText().toString());
-            returnIntent.putExtra("TricksRequired", tricksRequired);
-            if(gameMode != 2){
-                int suitChosen = getSuit();
-                returnIntent.putExtra("Suit", suitChosen);
-            }
-            if(gameMode == 4){
-                int numberOfWhips = Integer.parseInt(whipSpinner.getItemSelected());
-                returnIntent.putExtra("Whips", numberOfWhips);
+        boolean validInputsInSpinners = true;
+        for (SpinnerFragment sf: tricksCounters) {
+            if (!sf.isNumberElementChosen()){
+                validInputsInSpinners = false;
             }
         }
-        int[] tricks = getNumberOfTricks();
-        returnIntent.putExtra("Tricks", tricks);
+        if(validInputsInSpinners) {
+            Intent returnIntent = new Intent();
+            int gameMode = getGameMode();
+            returnIntent.putExtra("GameMode", gameMode);
+            if (gameMode < 5) {
+                int tricksRequired;
+                RadioButton checkedModeButton = findViewById(rgGameModePoints.getCheckedRadioButtonId());
+                tricksRequired = Integer.parseInt(checkedModeButton.getText().toString());
+                returnIntent.putExtra("TricksRequired", tricksRequired);
+                if (gameMode != 2) {
+                    int suitChosen = getSuit();
+                    returnIntent.putExtra("Suit", suitChosen);
+                }
+                if (gameMode == 4) {
+                    int numberOfWhips = Integer.parseInt(whipSpinner.getItemSelected());
+                    returnIntent.putExtra("Whips", numberOfWhips);
+                }
+            }
+            int[] tricks = getNumberOfTricks();
+            returnIntent.putExtra("Tricks", tricks);
 
-        int[] playerIndexes = getPlayerIndexes();
-        returnIntent.putExtra("Players", playerIndexes);
+            int[] playerIndexes = getPlayerIndexes();
+            returnIntent.putExtra("Players", playerIndexes);
 
 
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }else{
+            Toast toast = Toast.makeText(this, "Udfyld antal stik", Toast.LENGTH_SHORT);
+            toast.show();
+        }
 
     }
 
@@ -352,11 +367,15 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
 
     @Override
     public void elementChosen() {
-        Log.d("ttt", "elementChosen: ");
+        if(!suitsFragment.isAdded()) {
+            getSupportFragmentManager().beginTransaction().add(R.id.suits_holder, suitsFragment).commit();
+        }
     }
 
     @Override
     public void defaultElementChosen() {
-        Log.d("ttt", "defaultElementChosen: ");
+        getSupportFragmentManager().beginTransaction().remove(suitsFragment).commit();
+        unchceckPlayers();
+        llPlayerPlaying.setVisibility(View.INVISIBLE);
     }
 }
