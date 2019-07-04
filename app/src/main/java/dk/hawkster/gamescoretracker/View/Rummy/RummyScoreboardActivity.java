@@ -36,7 +36,7 @@ public class RummyScoreboardActivity extends AppCompatActivity {
         List<String> players = new ArrayList<>();
 
         playersView = new ArrayList<>();
-        Object extraPP = extras.get("PP");
+        Object extraPP = extras.get("Players");
         if(extraPP instanceof ArrayList<?>){
             ArrayList<?> al = (ArrayList<?>) extraPP;
             if(al.size() > 0){

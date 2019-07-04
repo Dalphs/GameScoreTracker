@@ -12,7 +12,6 @@
         <activity android:name=".View.Whist.WhistRoundResultActivity"></activity>
         <activity android:name=".View.Whist.WhistScoreBoardActivity" />
         <activity android:name=".View.Rummy.RummyScoreboardActivity" />
-        <activity android:name=".View.ParticipatingPlayersActivity" />
         <activity android:name=".View.ChooseGameActivity" />
         <activity android:name=".View.MainActivity">
             <intent-filter>

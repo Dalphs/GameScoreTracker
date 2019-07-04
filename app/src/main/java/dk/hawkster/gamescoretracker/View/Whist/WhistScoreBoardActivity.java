@@ -44,7 +44,7 @@ public class WhistScoreBoardActivity extends AppCompatActivity implements WhistV
         extras = getIntent().getExtras();
 
         players = new ArrayList<>();
-        Object extraPP = extras.get("PP");
+        Object extraPP = extras.get("Players");
         if (extraPP instanceof ArrayList<?>) {
             ArrayList<?> al = (ArrayList<?>) extraPP;
             if (al.size() > 0) {
