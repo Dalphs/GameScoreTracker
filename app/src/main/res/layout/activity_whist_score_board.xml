@@ -20,58 +20,63 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:paddingEnd="5dp"
             android:id="@+id/text_view_player1"
             android:layout_weight="1"
             android:textAlignment="center"
             android:textSize="20sp"
-            android:fontFamily="sans-serif"/>
+            android:fontFamily="sans-serif"
+            android:background="@color/player_one"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:paddingEnd="5dp"
             android:id="@+id/text_view_player2"
             android:textAlignment="center"
             android:layout_weight="1"
             android:textSize="20sp"
-            android:fontFamily="sans-serif"/>
+            android:fontFamily="sans-serif"
+            android:background="@color/player_two"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:paddingEnd="5dp"
             android:id="@+id/text_view_player3"
             android:layout_weight="1"
             android:textAlignment="center"
             android:textSize="20sp"
-            android:fontFamily="sans-serif"/>
+            android:fontFamily="sans-serif"
+            android:background="@color/player_three"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:paddingEnd="5dp"
             android:id="@+id/text_view_player4"
             android:layout_weight="1"
             android:textAlignment="center"
             android:textSize="20sp"
-            android:fontFamily="sans-serif"/>
+            android:fontFamily="sans-serif"
+            android:background="@color/player_four"
+             />
 
     </LinearLayout>
 
@@ -96,7 +101,9 @@
         android:layout_marginEnd="30dp"
         android:text="@string/button_new_round"
         android:onClick="newRound"
-        android:layout_marginLeft="30dp" />
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/button_background"
+        android:textColor="#808080"/>
 
 </LinearLayout>
 

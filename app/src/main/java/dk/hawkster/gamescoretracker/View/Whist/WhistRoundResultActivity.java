@@ -239,7 +239,7 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
                 validInputsInSpinners = false;
             }
         }
-        if(validInputsInSpinners) {
+        if(validInputsInSpinners && !(getPlayerIndexes().length <= 0)) {
             Intent returnIntent = new Intent();
             int gameMode = getGameMode();
             returnIntent.putExtra("GameMode", gameMode);
@@ -266,8 +266,11 @@ public class WhistRoundResultActivity extends AppCompatActivity implements Suits
 
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
-        }else{
+        }else if(!validInputsInSpinners){
             Toast toast = Toast.makeText(this, "Udfyld antal stik", Toast.LENGTH_SHORT);
+            toast.show();
+        }else if(getPlayerIndexes().length <= 0){
+            Toast toast = Toast.makeText(this, "Vælg Spillere", Toast.LENGTH_SHORT);
             toast.show();
         }
 

@@ -3,4 +3,16 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="player_one">#a67f87b2</color>
+    <color name="player_two">#a683b2d0</color>
+    <color name="player_three">#a695dab3</color>
+    <color name="player_four">#a6f2e6b1</color>
+    <color name="player_five">#a6dc8580</color>
+    <color name="player_one_fading">#cc7f87b2</color>
+    <color name="player_two_fading">#cc83b2d0</color>
+    <color name="player_three_fading">#cc95dab3</color>
+    <color name="player_four_fading">#ccf2e6b1</color>
+    <color name="player_five_fading">#ccdc8580</color>
+    <color name="button_background">#cbbc80</color>
+
 </resources>

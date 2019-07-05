@@ -8,11 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class ChooseGameActivity extends AppCompatActivity {
     private ArrayList<String> listPlayers;
     private ChoosePlayerAdapter choosePlayerAdapter;
     private Button bAddPlayer;
-    private TextView tvNewPlayer;
+    private EditText etNewPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +42,16 @@ public class ChooseGameActivity extends AppCompatActivity {
 
         View v = getLayoutInflater().inflate(R.layout.dialog_choose_players, null);
         bAddPlayer = v.findViewById(R.id.add_player_button);
-        tvNewPlayer = v.findViewById(R.id.add_player_edit_text);
+        etNewPlayer = v.findViewById(R.id.add_player_edit_text);
         bAddPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!tvNewPlayer.getText().toString().equals("") ){
-                    String newName = tvNewPlayer.getText().toString().trim();
+                if(!etNewPlayer.getText().toString().equals("") ){
+                    String newName = etNewPlayer.getText().toString().trim();
                     newName = newName.substring(0, 1).toUpperCase() + newName.substring(1);
                     listPlayers.add(newName);
                     choosePlayerAdapter.updateData(listPlayers);
+                    etNewPlayer.getText().clear();
                 }
             }
         });
@@ -115,9 +114,9 @@ public class ChooseGameActivity extends AppCompatActivity {
             case "Backgammon":
                 break;
         }
-        if (nextClass != null) {
-            nextClass.putStringArrayListExtra("Players", playerNames);
-            startActivity(nextClass);
-        }
+            if (nextClass != null) {
+                nextClass.putStringArrayListExtra("Players", playerNames);
+                startActivity(nextClass);
+            }
     }
 }
