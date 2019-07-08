@@ -15,4 +15,6 @@
     <color name="player_five_fading">#ccdc8580</color>
     <color name="button_background">#cbbc80</color>
 
+    <color name="text_color">#808080</color>
+
 </resources>

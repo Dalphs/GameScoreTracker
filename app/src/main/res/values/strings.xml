@@ -17,6 +17,12 @@
     <string name="button_save">Gem</string>
     <string name="button_start">Start</string>
     <string name="button_cancel">Anullér</string>
+    <style name="button_minus_tricks">Minus Stik</style>
+    <style name="button_minus_clubs">Minus Klør</style>
+    <style name="button_minus_queens">Minus Damer</style>
+    <style name="button_minus_king_of_clubs">Minus Klør Konge</style>
+    <style name="button_solitaire">Kabale</style>
+    <style name="button_new_game">Nyt Spil</style>
 
     <string name="text_view_spillere">Spillere:</string>
     <string name="text_view_whips">Antal vip?</string>

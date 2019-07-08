@@ -8,4 +8,10 @@
         <item name="colorAccent">#05afe3</item>
     </style>
 
+    <style name="ButtonStandard" parent="TextAppearance.AppCompat.Widget.Button">
+
+        <item name="android:textColor">#808080</item>
+
+    </style>
+
 </resources>
